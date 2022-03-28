@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="sidebar">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append the horizontal navbar(sidebar) here only-->
+        
+      </div>
+
+      <div id="main">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append psychology blogs here only-->
+      </div>
+    </div>
+  </body>
+</html>
+<script type="module">
+
+let re = localStorage.getItem("search_term")||[];
+import sidebar from "./components/sidebar.js"
+
+let sidebardata =document.getElementById("sidebar");
+sidebardata.innerHTML = sidebar();
+
+let url =`https://blog-search-u3c4.herokuapp.com/api/blogs/psychology`;
+let main = document.getElementById("main");
+
+import {apiCall, appendArticles } from "./scripts/main.js";
+
+let res = await apiCall(url);
+
+appendArticles(res,main)
+
+
+let searchbar = document.getElementById("searchbar");
+searchbar.addEventListener("keypress",async (e)=>{
+ 
+  if(e.which == 13)
+  {
+    let search = searchbar.value;
+    localStorage.setItem("search_term",search);
+    window.location.href="./search.html"
+  }
+  else{
+    main.innerHTML="";
+  }
+});
+
+  // const psychology =async ()=>{
+
+  //   try {
+  //     let url =`https://blog-search-u3c4.herokuapp.com/api/blogs/psychology`;
+  //     let res = await fetch(url);
+  //     let data = await res.json();
+  //     // console.log(data);
+  //     display(data);
+  //   } catch (error) {
+  //     console.log("Error: ",error);
+  //   }
+   
+  // }
+// title
+// urlToImage
+// description
+  
+// const display =(data)=>{
+//   document.getElementById("main").innerHTML = "";
+
+//   data.forEach(function(el){
+//     // console.log(el)
+//     let div = document.createElement("div");
+//     div.addEventListener("click",function(e){
+//       click(el);
+//     })
+
+//     let title = document.createElement("h3");
+//     title.innerHTML = el.title;
+
+//     let img = document.createElement("img");
+//     img.src = el.urlToImage;
+
+//     let description = document.createElement("h3");
+//     description.innerHTML = el.description;
+
+//     div.append(title,description,img);
+//     document.getElementById("main").append(div);
+//   })
+  
+// }
+// psychology();
+
+
+// let local = JSON.parse(localStorage.getItem("article"))||[];
+// const click = (el) =>{
+  
+//   function Constructor(el) {
+//     this.title = el.title;
+//     this.description = el.description;
+//     this.img = el.urlToImage;
+//   }
+
+//   let ar = new Constructor(el);
+//   local.push(ar);
+//   localStorage.setItem("article",JSON.stringify(local));
+//   window.location.href = "blog.html";
+// }
+</script>
